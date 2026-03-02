@@ -3,6 +3,13 @@
 `mdview` is a local Markdown viewer for terminal-first (TUI) workflows.
 It lets you stay in the shell for navigation and commands, while opening a browser tab for clean rendered output (Markdown + Mermaid), instead of reading raw `.md` text in the terminal.
 
+## Screenshots
+### Main Viewer
+![mdview main viewer](./mdview.png)
+
+### Mermaid Rendering
+![mdview mermaid rendering](./mdview-mermaid.png)
+
 ## Documentation
 - Korean README: [README-ko.md](./README-ko.md)
 - Contributor Guide: [AGENTS.md](./AGENTS.md)
