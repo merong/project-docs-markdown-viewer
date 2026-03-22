@@ -1,5 +1,3 @@
-'use strict';
-
 function buildViewerHtml({
   pageTitle,
   rootDisplayPath,
@@ -81,6 +79,4 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
-module.exports = {
-  buildViewerHtml
-};
+export { buildViewerHtml };

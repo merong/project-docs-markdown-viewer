@@ -1,22 +1,16 @@
-#!/usr/bin/env node
-'use strict';
+#!/usr/bin/env bun
+import fs from 'node:fs';
+import path from 'node:path';
+import http from 'node:http';
+import { spawn, spawnSync } from 'node:child_process';
 
-const fs = require('node:fs');
-const path = require('node:path');
-const http = require('node:http');
-const { URL } = require('node:url');
-const { spawn, spawnSync } = require('node:child_process');
-
-const { listMarkdownFiles } = require('./file-indexer');
-const { resolveRoot, resolvePathInRoot, normalizeRelativePath } = require('./path-guard');
-const { CurrentFileWatchHub } = require('./watch');
-const { buildViewerHtml } = require('./viewer-template');
+import { listMarkdownFiles } from './file-indexer.js';
+import { resolveRoot, resolvePathInRoot, normalizeRelativePath } from './path-guard.js';
+import { CurrentFileWatchHub } from './watch.js';
+import { buildViewerHtml } from './viewer-template.js';
 
 const DEFAULT_PORT = 18094;
 const HOST = '127.0.0.1';
-
-const seaApi = safeRequireSea();
-const isSeaMode = Boolean(seaApi && typeof seaApi.isSea === 'function' && seaApi.isSea());
 
 async function main() {
   const cli = parseArgs(process.argv.slice(2));
@@ -26,7 +20,7 @@ async function main() {
   const rootRealPath = resolveRoot(cwd, cli.root);
   const scanMode = cli.root ? 'recursive-root' : 'cwd-and-docs';
 
-  const projectRoot = path.resolve(__dirname, '..');
+  const projectRoot = path.resolve(import.meta.dir, '..');
   const assets = loadAssets(projectRoot);
 
   const rootDisplayPath = makeDisplayPath(cwd, rootRealPath, scanMode);
@@ -92,23 +86,19 @@ function loadAssets(projectRoot) {
   };
 
   return {
-    rendererJs: loadTextAsset('renderer_js', assetMap.rendererJs),
-    rendererCss: loadTextAsset('renderer_css', assetMap.rendererCss),
-    mermaidJs: loadTextAsset('mermaid_js', assetMap.mermaidJs),
-    viewerCss: loadTextAsset('viewer_css', assetMap.viewerCss),
-    viewerAppJs: loadTextAsset('viewer_app_js', assetMap.viewerAppJs)
+    rendererJs: loadTextAsset('rendererJs', assetMap.rendererJs),
+    rendererCss: loadTextAsset('rendererCss', assetMap.rendererCss),
+    mermaidJs: loadTextAsset('mermaidJs', assetMap.mermaidJs),
+    viewerCss: loadTextAsset('viewerCss', assetMap.viewerCss),
+    viewerAppJs: loadTextAsset('viewerAppJs', assetMap.viewerAppJs)
   };
 }
 
 function loadTextAsset(assetKey, diskPath) {
-  if (isSeaMode && seaApi && typeof seaApi.getAsset === 'function') {
-    const arrayBuffer = seaApi.getAsset(assetKey);
-    if (!arrayBuffer) {
-      throw new Error(`SEA asset not found: ${assetKey}`);
-    }
-    return Buffer.from(arrayBuffer).toString('utf8');
+  const inlined = globalThis.__MDVIEW_ASSETS__?.[assetKey];
+  if (inlined !== undefined) {
+    return inlined;
   }
-
   return fs.readFileSync(diskPath, 'utf8');
 }
 
@@ -475,7 +465,7 @@ function isPidAlive(pid) {
 }
 
 function sleep(ms) {
-  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+  Bun.sleepSync(ms);
 }
 
 function getServerPort(server, fallbackPort) {
@@ -502,14 +492,6 @@ function openBrowser(url) {
     child.unref();
   } catch (error) {
     process.stderr.write(`Failed to run open command: ${error.message}\n`);
-  }
-}
-
-function safeRequireSea() {
-  try {
-    return require('node:sea');
-  } catch {
-    return null;
   }
 }
 

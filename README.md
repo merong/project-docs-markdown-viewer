@@ -32,59 +32,45 @@ Default scan behavior is:
 - Optional custom scan root via `--root`
 - Live reload using SSE + file watching
 - Foreground/background execution modes
-- Single executable build with Node SEA
+- Single executable build with `bun build --compile`
 
 ## Requirements
-- Node.js 20+
-- npm
+- [Bun](https://bun.sh/) 1.x+
 
 ## Development Run
 ```bash
-npm install
-npm start
+bun start
 ```
 Open `http://127.0.0.1:18094`.
 
 Useful options:
 ```bash
-node src/server.js --port 18081
-node src/server.js --root ./docs
-node src/server.js --foreground
+bun src/server.js --port 18081
+bun src/server.js --root ./docs
+bun src/server.js --foreground
 ```
-
-## Validate
-```bash
-npm run check
-```
-This runs syntax checks for the main server/client JavaScript files.
 
 ## Build
 ```bash
-npm run build:sea
+bun run build
 ```
 Build output:
 - macOS/Linux: `dist/mdview`
 - Windows: `dist/mdview.exe`
 
-## Install Binary to `~/bin` and Use via `$PATH`
-After building:
-
+## Deploy
+Build and install to `~/bin`:
 ```bash
-mkdir -p "$HOME/bin"
-cp dist/mdview "$HOME/bin/mdview"
-chmod +x "$HOME/bin/mdview"
+bun run deploy
 ```
 
-Add `~/bin` to PATH (zsh):
+If `~/bin` is not yet in your PATH:
 ```bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
-```
+# zsh
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
 
-Add `~/bin` to PATH (bash):
-```bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+# bash
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 ```
 
 Verify:
@@ -104,6 +90,6 @@ mdview --root ./docs --port 18094
 
 ## Project Structure
 - `src/`: server, file indexing, path guard, watcher, UI assets
-- `scripts/`: build scripts (including SEA packaging)
+- `scripts/`: build script (`bun build --compile` packaging)
 - `vendor/`: bundled third-party browser assets
 - `dist/`: generated build artifacts

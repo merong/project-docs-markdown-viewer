@@ -3,18 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "description": "Local markdown docs viewer with live refresh for current file",
-  "type": "commonjs",
+  "type": "module",
   "bin": {
     "mdview": "./src/server.js"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "start:port": "node src/server.js --port 18094",
-    "check": "node --check src/server.js && node --check src/file-indexer.js && node --check src/path-guard.js && node --check src/watch.js && node --check src/viewer-template.js && node --check src/public/viewer-app.js",
-    "build:sea": "node scripts/build-sea.mjs"
-  },
-  "devDependencies": {
-    "esbuild": "^0.25.5",
-    "postject": "^1.0.0-alpha.6"
+    "start": "bun src/server.js",
+    "start:port": "bun src/server.js --port 18094",
+    "check": "bun build --no-bundle --target=bun src/server.js src/file-indexer.js src/path-guard.js src/watch.js src/viewer-template.js --outdir /tmp/bun-check > /dev/null",
+    "build": "bun scripts/build-bun.js",
+    "deploy": "bun scripts/build-bun.js && rm -f ~/bin/mdview && cp dist/mdview ~/bin/mdview"
   }
 }

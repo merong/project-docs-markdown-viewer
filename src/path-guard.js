@@ -1,7 +1,5 @@
-'use strict';
-
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
 function resolveRoot(cwd, cliRoot) {
   const fallback = path.resolve(cwd);
@@ -74,9 +72,4 @@ function isInsideRoot(rootRealPath, targetPath) {
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
 }
 
-module.exports = {
-  resolveRoot,
-  resolvePathInRoot,
-  normalizeRelativePath,
-  isInsideRoot
-};
+export { resolveRoot, resolvePathInRoot, normalizeRelativePath, isInsideRoot };

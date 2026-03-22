@@ -1,7 +1,5 @@
-'use strict';
-
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
 class CurrentFileWatchHub {
   constructor(rootRealPath, options = {}) {
@@ -155,6 +153,4 @@ class CurrentFileWatchHub {
   }
 }
 
-module.exports = {
-  CurrentFileWatchHub
-};
+export { CurrentFileWatchHub };
