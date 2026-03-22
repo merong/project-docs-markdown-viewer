@@ -56,24 +56,76 @@ bun run build
 - macOS/Linux: `dist/mdview`
 - Windows: `dist/mdview.exe`
 
-## 배포
-빌드 후 `~/bin`에 설치:
+## 설치
+
+### macOS / Linux
+
+1. 빌드 후 원하는 경로에 복사:
+```bash
+bun run build
+mkdir -p "$HOME/bin"
+cp dist/mdview "$HOME/bin/mdview"
+```
+
+macOS에서는 단축 명령어도 사용 가능:
 ```bash
 bun run deploy
 ```
 
-`~/bin`이 PATH에 없는 경우:
-```bash
-# zsh
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+2. 설치 경로를 PATH에 추가 (최초 1회):
 
-# bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+**zsh** (macOS 기본 쉘):
+```bash
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
 ```
 
-확인:
+**bash**:
+```bash
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+3. 확인:
 ```bash
 which mdview
+mdview --help
+```
+
+### Windows
+
+1. 빌드:
+```powershell
+bun run build
+```
+
+2. `dist\mdview.exe`를 원하는 위치에 복사 (예: `C:\Users\<사용자>\bin\`):
+```powershell
+mkdir "$env:USERPROFILE\bin" -Force
+copy dist\mdview.exe "$env:USERPROFILE\bin\mdview.exe"
+```
+
+3. 설치 경로를 PATH에 추가:
+
+**PowerShell** (영구, 사용자 수준):
+```powershell
+$binPath = "$env:USERPROFILE\bin"
+$currentPath = [Environment]::GetEnvironmentVariable("Path", "User")
+if ($currentPath -notlike "*$binPath*") {
+    [Environment]::SetEnvironmentVariable("Path", "$binPath;$currentPath", "User")
+}
+```
+터미널을 재시작하면 적용됩니다.
+
+**CMD** (영구, 사용자 수준):
+```cmd
+setx PATH "%USERPROFILE%\bin;%PATH%"
+```
+터미널을 재시작하면 적용됩니다.
+
+4. 확인:
+```powershell
+where.exe mdview
 mdview --help
 ```
 

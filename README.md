@@ -58,24 +58,76 @@ Build output:
 - macOS/Linux: `dist/mdview`
 - Windows: `dist/mdview.exe`
 
-## Deploy
-Build and install to `~/bin`:
+## Install
+
+### macOS / Linux
+
+1. Build and copy to your preferred location:
+```bash
+bun run build
+mkdir -p "$HOME/bin"
+cp dist/mdview "$HOME/bin/mdview"
+```
+
+On macOS you can also use the shortcut:
 ```bash
 bun run deploy
 ```
 
-If `~/bin` is not yet in your PATH:
-```bash
-# zsh
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+2. Add the install directory to PATH (one-time setup):
 
-# bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+**zsh** (default on macOS):
+```bash
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
 ```
 
-Verify:
+**bash**:
+```bash
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+3. Verify:
 ```bash
 which mdview
+mdview --help
+```
+
+### Windows
+
+1. Build:
+```powershell
+bun run build
+```
+
+2. Copy `dist\mdview.exe` to your preferred location, for example `C:\Users\<you>\bin\`:
+```powershell
+mkdir "$env:USERPROFILE\bin" -Force
+copy dist\mdview.exe "$env:USERPROFILE\bin\mdview.exe"
+```
+
+3. Add the install directory to PATH:
+
+**PowerShell** (permanent, user-level):
+```powershell
+$binPath = "$env:USERPROFILE\bin"
+$currentPath = [Environment]::GetEnvironmentVariable("Path", "User")
+if ($currentPath -notlike "*$binPath*") {
+    [Environment]::SetEnvironmentVariable("Path", "$binPath;$currentPath", "User")
+}
+```
+Restart the terminal for the change to take effect.
+
+**CMD** (permanent, user-level):
+```cmd
+setx PATH "%USERPROFILE%\bin;%PATH%"
+```
+Restart the terminal for the change to take effect.
+
+4. Verify:
+```powershell
+where.exe mdview
 mdview --help
 ```
 
