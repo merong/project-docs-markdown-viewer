@@ -11,6 +11,7 @@
     "start": "bun src/server.js",
     "start:port": "bun src/server.js --port 18094",
     "check": "bun build --no-bundle --target=bun src/server.js src/file-indexer.js src/path-guard.js src/watch.js src/viewer-template.js --outdir /tmp/bun-check > /dev/null",
-    "build": "bun scripts/build-bun.js"
+    "build": "bun scripts/build-bun.js",
+    "deploy": "bun scripts/build-bun.js && rm -f ~/bin/mdview && cp dist/mdview ~/bin/mdview"
   }
 }

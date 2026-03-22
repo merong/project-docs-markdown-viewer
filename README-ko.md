@@ -25,64 +25,50 @@
 - `--root`로 사용자 지정 루트 스캔
 - 현재 열린 파일 라이브 리로드(SSE + 파일 감시)
 - 포그라운드/백그라운드 실행 모드
-- Node SEA 기반 단일 실행 파일 빌드
+- `bun build --compile` 기반 단일 실행 파일 빌드
 
 ## 요구 사항
-- Node.js 20+
-- npm
+- [Bun](https://bun.sh/) 1.x+
 
 ## 개발 실행
 ```bash
-npm install
-npm start
+bun start
 ```
 접속 주소: `http://127.0.0.1:18094`
 
 유용한 옵션:
 ```bash
 # 포트 지정
-node src/server.js --port 18081
+bun src/server.js --port 18081
 
 # 특정 루트 디렉터리 스캔
-node src/server.js --root ./docs
+bun src/server.js --root ./docs
 
 # 포그라운드 실행
-node src/server.js --foreground
+bun src/server.js --foreground
 ```
-
-## 검증
-```bash
-npm run check
-```
-핵심 서버/클라이언트 JavaScript 파일 문법을 검사합니다.
 
 ## 빌드
 ```bash
-npm run build:sea
+bun run build
 ```
 출력:
 - macOS/Linux: `dist/mdview`
 - Windows: `dist/mdview.exe`
 
-## 빌드 산출물을 `~/bin`에 설치하고 `$PATH`로 사용하기
-빌드 후:
-
+## 배포
+빌드 후 `~/bin`에 설치:
 ```bash
-mkdir -p "$HOME/bin"
-cp dist/mdview "$HOME/bin/mdview"
-chmod +x "$HOME/bin/mdview"
+bun run deploy
 ```
 
-zsh에서 PATH 추가:
+`~/bin`이 PATH에 없는 경우:
 ```bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
-```
+# zsh
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
 
-bash에서 PATH 추가:
-```bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+# bash
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 ```
 
 확인:
@@ -102,6 +88,6 @@ mdview --root ./docs --port 18094
 
 ## 프로젝트 구조
 - `src/`: 서버, 파일 인덱싱, 경로 보호, 감시, UI 자산
-- `scripts/`: 빌드 스크립트(SEA 패키징 포함)
+- `scripts/`: 빌드 스크립트(`bun build --compile` 패키징)
 - `vendor/`: 번들된 서드파티 브라우저 자산
 - `dist/`: 생성된 빌드 결과물
