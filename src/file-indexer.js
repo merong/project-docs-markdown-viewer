@@ -1,7 +1,5 @@
-'use strict';
-
-const fs = require('node:fs/promises');
-const path = require('node:path');
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 const SKIP_DIR_NAMES = new Set(['.git', 'node_modules', '.idea', '.vscode', 'dist']);
 const DEFAULT_DOCS_DIR_NAME = 'docs';
@@ -96,6 +94,4 @@ function isMarkdownFileName(fileName) {
   return typeof fileName === 'string' && fileName.toLowerCase().endsWith('.md');
 }
 
-module.exports = {
-  listMarkdownFiles
-};
+export { listMarkdownFiles };
