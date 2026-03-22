@@ -1,10 +1,11 @@
+*Read this in other languages: [English](README.md)*
+
 # mdview
 
 `mdview`는 터미널 중심(TUI) 워크플로우를 위한 로컬 Markdown 뷰어입니다.
 쉘에서 탐색과 작업을 계속하면서, 브라우저 탭에서 Markdown과 Mermaid를 렌더링된 형태로 빠르게 확인할 수 있습니다.
 
 ## 문서
-- English README (기본): [README.md](./README.md)
 - 기여 가이드: [AGENTS.md](./AGENTS.md)
 - 라이선스: [LICENSE](./LICENSE)
 

@@ -1,3 +1,5 @@
+*Read this in other languages: [한국어](README-ko.md)*
+
 # mdview
 
 `mdview` is a local Markdown viewer for terminal-first (TUI) workflows.
@@ -11,7 +13,6 @@ It lets you stay in the shell for navigation and commands, while opening a brows
 ![mdview mermaid rendering](./mdview-mermaid.png)
 
 ## Documentation
-- Korean README: [README-ko.md](./README-ko.md)
 - Contributor Guide: [AGENTS.md](./AGENTS.md)
 - License: [LICENSE](./LICENSE)
 
